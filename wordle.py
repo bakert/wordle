@@ -152,10 +152,19 @@ def get_dictionary():
     #     return [w.strip() for w in f.readlines() if len(w.strip()) == WORD_LENGTH and w.lower() == w]
 
 def test():
+    test_wild_letters()
     test_find_best_words()
     test_find_best_score()
     test_score()
     test_get_dictionary()
+
+def test_wild_letters():
+    game = Game('panic')
+    game.guesses = ['alert']
+    assert game.wild_letters() == [('a', 0)]
+    game = Game('alert')
+    game.guesses = ['alter']
+    game.guesses = [('t', 2), ('e', 3), ('r', 4)]
 
 def test_find_best_words():
     hist = {
@@ -163,7 +172,9 @@ def test_find_best_words():
         'b': 1,
     }
     dictionary = ['a', 'baa', 'count']
-    assert find_best_words(hist, dictionary) == ['baa']
+    assert find_best_words(hist, dictionary, []) == ['baa']
+    assert find_best_words(hist, dictionary, ['a']) == ['baa']
+    assert find_best_words(hist, dictionary, ['a', 'b']) == ['a', 'baa', 'count']
 
 def test_find_best_score():
     hist = {
@@ -171,16 +182,18 @@ def test_find_best_score():
         'b': 1,
     }
     dictionary = ['a', 'baa', 'count']
-    assert find_best_score(hist, dictionary) == 11
+    assert find_best_score(hist, dictionary, []) == 11
+    assert find_best_score(hist, dictionary, ['a']) == 1
 
 def test_score():
     hist = {
         'a': 10,
         'b': 1,
     }
-    assert score(hist, 'baa') == 11
-    assert score(hist, 'count') == 0
-    assert score(hist, 'a') == 10
+    assert score(hist, 'baa', []) == 11
+    assert score(hist, 'count', []) == 0
+    assert score(hist, 'a', []) == 10
+    assert score(hist, 'baa', ['a']) == 1
 
 def test_get_dictionary():
     d = get_dictionary()
