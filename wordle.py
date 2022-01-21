@@ -10,8 +10,8 @@ class Game:
         self.guesses = []
 
     def guess(self, word):
-        print('Guessing ' + word)
         self.guesses.append(word)
+        print(f'Guessing {word} ({len(self.guesses)})')
         return word == self.word
 
     def incomplete(self):
@@ -223,6 +223,6 @@ def test_get_dictionary():
         assert w.lower() == w
 
 if len(sys.argv) < 2:
-    playall()
+    solve()
 else:
     test()

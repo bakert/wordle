@@ -28,8 +28,8 @@ def autosolve(solution):
         print(f"Guessing {guess} {num_guesses}")
         solutions = resolve(guess, profile(guess, solution), solutions)
         print(f"{len(solutions)} solutions left ({solutions})")
-        if num_guesses >= 5:
-            raise Exception(f"Failed on {solution}")
+        if num_guesses >= 5 and solutions != [guess]:
+            print(f"Failed on {solution}")
 
 def resolve(guess, result, solutions):
     return [solution for solution in solutions if profile(guess, solution) == result]
