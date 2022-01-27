@@ -19,7 +19,8 @@ def autosolve(solution):
     num_guesses = 0
     solutions = possible_solutions()
     guesses = possible_guesses()
-    while len(solutions) > 1:
+    guess = None
+    while solutions != [guess]:
         if len(solutions) > 200:
             guess = 'arise'
         else:
@@ -28,7 +29,7 @@ def autosolve(solution):
         print(f"Guessing {guess} {num_guesses}")
         solutions = resolve(guess, profile(guess, solution), solutions)
         print(f"{len(solutions)} solutions left ({solutions})")
-        if num_guesses >= 5 and solutions != [guess]:
+        if num_guesses > 6:
             print(f"Failed on {solution}")
 
 def resolve(guess, result, solutions):
